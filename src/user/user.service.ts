@@ -6,7 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User) private userRepo: typeof User) { }
+  constructor(@InjectModel(User) private userRepo: typeof User) {}
 
   async create(createUserDto: CreateUserDto) {
     const res = await this.userRepo.create(createUserDto);
@@ -14,11 +14,21 @@ export class UserService {
   }
 
   async findAll() {
-    return await this.userRepo.findAll({ include: { all: true, nested: true } });
+    return await this.userRepo.findAll({
+      include: { all: true, nested: true },
+    });
   }
 
   async findOne(id: number) {
     return await this.userRepo.findByPk(id);
+  }
+
+  async findByEmail(email: string) {
+    return await this.userRepo.findOne({ where: { email } });
+  }
+
+  async findByPhone(phone: string) {
+    return await this.userRepo.findOne({ where: { phone } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

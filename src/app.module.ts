@@ -19,6 +19,7 @@ import { CountryModule } from './country/country.module';
 import { LibraryModule } from './library/library.module';
 import { QuotesModule } from './quotes/quotes.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { UserModule } from './user/user.module';
         User,
       ],
     }),
+    AuthModule,
     AuthorModule,
     BookModule,
     CategoryModule,

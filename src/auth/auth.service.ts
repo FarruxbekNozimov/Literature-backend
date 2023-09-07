@@ -17,14 +17,9 @@ export class AuthService {
     const is_phone = await this.userService.findByPhone(phone);
     if (user)
       throw new HttpException(`Bunday user mavjud`, HttpStatus.BAD_REQUEST);
-    if (!is_phone)
+    if (is_phone)
       throw new HttpException(
         `Bu telefon raqam avval ishlatilgan`,
-        HttpStatus.BAD_REQUEST,
-      );
-    if (!email)
-      throw new HttpException(
-        `Bu email avval ishlatilgan`,
         HttpStatus.BAD_REQUEST,
       );
 

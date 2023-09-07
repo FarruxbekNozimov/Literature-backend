@@ -22,10 +22,10 @@ export class AuthService {
         `Bu telefon raqam avval ishlatilgan`,
         HttpStatus.BAD_REQUEST,
       );
+    const newUser = await this.userService.create(createUserDto);
+    const token = await this.getToken(newUser.id, 'USER');
 
-    const token = await this.getToken(user.id, 'USER');
-
-    const response = { message: 'LOGGED', user, token };
+    const response = { message: 'LOGGED', user: newUser, token };
     return response;
   }
 

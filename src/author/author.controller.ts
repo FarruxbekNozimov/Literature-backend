@@ -6,11 +6,15 @@ import {
   Param,
   Delete,
   Put,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiConsumes } from '@nestjs/swagger';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorService } from './author.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ImageValidationPipe } from '../pipes/image-validation.pipe';
 
 @ApiTags('Author')
 @Controller('author')
@@ -18,9 +22,14 @@ export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
   @ApiOperation({ summary: 'Create a author' })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
   @Post()
-  create(@Body() createAuthorDto: CreateAuthorDto) {
-    return this.authorService.create(createAuthorDto);
+  create(
+    @Body() createAuthorDto: CreateAuthorDto,
+    @UploadedFile(new ImageValidationPipe()) image: Express.Multer.File,
+  ) {
+    return this.authorService.create(createAuthorDto, image);
   }
 
   @ApiOperation({ summary: 'Get all author' })
@@ -36,12 +45,15 @@ export class AuthorController {
   }
 
   @ApiOperation({ summary: 'Update author' })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
   @Put(':id')
   async update(
     @Param('id') id: number,
     @Body() updateAuthorDto: UpdateAuthorDto,
+    @UploadedFile(new ImageValidationPipe()) image: Express.Multer.File,
   ) {
-    return await this.authorService.update(+id, updateAuthorDto);
+    return await this.authorService.update(+id, updateAuthorDto, image);
   }
 
   @ApiOperation({ summary: 'Delete author' })

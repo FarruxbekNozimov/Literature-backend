@@ -2,23 +2,29 @@ import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateAuthorDto {
-  @ApiProperty({ example: 'John' })
+  @ApiProperty({ example: 'James' })
   @IsString()
   first_name: string;
 
-  @ApiProperty({ example: 'Doe' })
+  @ApiProperty({ example: 'Clear' })
   @IsString()
   last_name: string;
 
-  @ApiProperty({ example: '1970' })
+  @ApiProperty({ example: '1985.11.22' })
   date_birth: string;
 
-  @ApiProperty({ example: '2023' })
+  @ApiProperty({ example: 'live' })
   date_death: string;
 
   @ApiProperty({ example: '1' })
   country_id: number;
 
-  @ApiProperty({ example: 'He like coding' })
+  @ApiProperty({
+    example:
+      'James Clear is an American author. Clear is the author of the book Atomic Habits.',
+  })
   bio: string;
+
+  @ApiProperty({ example: 'image.png', type: 'string', format: 'binary' })
+  image: any;
 }

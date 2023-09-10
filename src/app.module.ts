@@ -19,7 +19,6 @@ import { CountryModule } from './country/country.module';
 import { LibraryModule } from './library/library.module';
 import { QuotesModule } from './quotes/quotes.module';
 import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -42,6 +41,7 @@ import { AuthModule } from './auth/auth.module';
         },
       },
       models: [
+        User,
         Author,
         Book,
         Category,
@@ -49,10 +49,9 @@ import { AuthModule } from './auth/auth.module';
         Country,
         Library,
         Quotes,
-        User,
       ],
     }),
-    AuthModule,
+    UserModule,
     AuthorModule,
     BookModule,
     CategoryModule,
@@ -60,7 +59,6 @@ import { AuthModule } from './auth/auth.module';
     CountryModule,
     LibraryModule,
     QuotesModule,
-    UserModule,
   ],
   controllers: [],
   providers: [],

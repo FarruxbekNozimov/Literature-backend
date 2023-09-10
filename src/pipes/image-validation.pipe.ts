@@ -4,7 +4,7 @@ import { extname } from 'path';
 @Injectable()
 export class ImageValidationPipe implements PipeTransform<any> {
   private readonly allowedExtensions = ['.jpeg', '.jpg', '.png'];
-  private readonly maxSize = 1 * 1024 * 1024; // 1 MB
+  private readonly maxSize = 5 * 1024 * 1024; // 1 MB
 
   transform(value: any) {
     try {
@@ -20,7 +20,7 @@ export class ImageValidationPipe implements PipeTransform<any> {
 
         if (value.size > this.maxSize) {
           throw new BadRequestException(
-            'Image file size should be under 1 MB.',
+            'Image file size should be under 5 MB.',
           );
         }
 

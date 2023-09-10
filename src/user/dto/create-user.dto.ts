@@ -27,7 +27,6 @@ export class CreateUserDto {
   @IsStrongPassword()
   password: string;
 
-  @ApiProperty({ example: 'HEQJLAM.png' })
-  @IsString()
-  user_photo: string;
+  @ApiProperty({ example: 'image.png', type: 'string', format: 'binary' })
+  image: any;
 }

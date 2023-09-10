@@ -4,9 +4,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { User } from './models/user.model';
+import { ImageModule } from '../image/image.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([User]), JwtModule],
+  imports: [
+    SequelizeModule.forFeature([User]),
+    JwtModule.register({}),
+    ImageModule,
+  ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

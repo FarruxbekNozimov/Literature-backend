@@ -1,16 +1,60 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './models/user.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ImageService } from '../image/image.service';
+import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User) private userRepo: typeof User) {}
+  constructor(
+    @InjectModel(User) private userRepo: typeof User,
+    private readonly imageService: ImageService,
+    private readonly jwtService: JwtService,
+  ) {}
+  async getToken(id: number, role: string) {
+    const payload = { id, role };
+    return this.jwtService.signAsync(payload, {
+      secret: process.env.TOKEN_KEY,
+      expiresIn: process.env.TOKEN_TIME,
+    });
+  }
 
-  async create(createUserDto: CreateUserDto) {
-    const res = await this.userRepo.create(createUserDto);
-    return res;
+  async create(createUserDto: CreateUserDto, image: Express.Multer.File) {
+    const { email, phone } = createUserDto;
+    const is_user = await this.findByEmail(email);
+    const is_phone = await this.findByPhone(phone);
+    if (is_user)
+      throw new HttpException(`User not found`, HttpStatus.BAD_REQUEST);
+    if (is_phone)
+      throw new HttpException(
+        `This phone already exists`,
+        HttpStatus.BAD_REQUEST,
+      );
+
+    let fileName = null;
+    if (image) fileName = await this.imageService.create(image);
+    const user = await this.userRepo.create({
+      ...createUserDto,
+      image: fileName,
+    });
+
+    const token = await this.getToken(user.id, 'USER');
+    return { message: 'LOGGED', user, token };
+  }
+
+  async login(loginDto: LoginDto) {
+    const { email, password } = loginDto;
+    console.log(loginDto);
+    const user = await this.findByEmail(email);
+    if (!user || user.password != password)
+      throw new HttpException(`User not found`, HttpStatus.BAD_REQUEST);
+    const token = await this.getToken(user.id, 'USER');
+
+    const response = { message: 'LOGGED', user, token };
+    return response;
   }
 
   async findAll() {
@@ -24,8 +68,8 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    console.log(await this.userRepo.findOne({ where: { email } }));
-    return await this.userRepo.findOne({ where: { email } });
+    const res = await this.userRepo.findOne({ where: { email } });
+    return res;
   }
 
   async findByPhone(phone: string) {
@@ -33,10 +77,20 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    return await this.userRepo.update(updateUserDto, {
-      where: { id },
-      returning: true,
-    });
+    const user = await this.findOne(id);
+    const { image } = updateUserDto;
+
+    if (image) {
+      if (user.image) {
+        await this.userRepo.update({ image: null }, { where: { id } });
+        await this.imageService.remove(user.image);
+      }
+      const fileName = await this.imageService.create(image);
+      await this.userRepo.update({ image: fileName }, { where: { id } });
+    }
+
+    await this.userRepo.update(updateUserDto, { where: { id } });
+    return this.findOne(id);
   }
 
   async delete(id: number): Promise<number> {

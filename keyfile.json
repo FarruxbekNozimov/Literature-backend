@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "hospital-ec6dd",
+  "private_key_id": "e12fb761dd236178f83b2de8e6785d0751928f38",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDDURAb/ECSDhyT\neTp5WIeY8tVffzN4wQiByG5hkCJxIwF0Izyo4CabXxUmIu2XzTBsLEgxQ60ZHcN3\nxwtNvNuRYb13Z9ZvW67cs9grEJRwK5xPxQuARzAIxMXjL+//SKLjnh/Q6PfNUkaB\nz0mnBEQjc0vjpSU7SZERenAKfITNUuEV/kUVxzEi9JPFSs9S6Xz0HncduwHuZDcU\nogKcDAbx73k4IijFNurQHXlDmVT6ELFghIm7NThqKBnfq2NPfM1nM3VjwGKlQVGd\n5y3XsgWU5rPKI8h9ra+x4BjCCEc3GBtWY7hU+SKA48RKZyst3rPYHHtDTeU4tPil\nwzDekfdlAgMBAAECggEABeL3kIbCjqRZcCIDOFnWtfr7obkvtlmUn0GIy7mQXPoo\nUEIpN3ddMoMwtZZWTgqJ698ZyrWDdHJVMp/CudqrTQjPfddluxpEShqRghrDa1Rx\n8/8eumsEcGWd1GipdXdqKvoLc2+e24bs4RSvEspdU13L0VY03Q75wR3mxCokk07F\n3EeO1nah1mAIpHtk8gF48wU8JkY44aRZCs+5D/E+jZCalTRHCfiP1OFgYcDCthGi\nGk0uLpnDBlc54+zQAbBVVOAMbgAU4MRdF5c3kzEZaMKqWH5Sn9gvApgO9eFU6oM4\nLw7l78Y6I5NLOWBG5IPBRDF+qDrqSZSU8Rs0fEkoMQKBgQDriEkn7oLhd+lUugqv\n1u9pxXYrVAk6uAJFDvXbwTcVS0m4ObA7LGtgqDrCOAuAvBcW9Zwx80WyXZXBC4Zg\nSnu89OtTlyhi4EBqVUh0yTUZkbaLzkIwPD0iu/bpHSs1t+S9U4u8IhgBr4TG3oON\nuogAfYrvW83XpvipCw3jCVCXKwKBgQDUSiDAF7sYlYu8il1H8pdLUObSigj7zHa/\n1/Obi2uwy1uZdnQS8X+DBZ3OzF1zjSVwpAcTK2CkNVbntsMkL5MuQURVeu1FO5AP\nT/ENxEPrqvEgoKelJI/okd8H43OsHMkNDGXn103ADYfKUj1fPX5jhcI4a86HIN1e\n8DraL49jrwKBgQCzwVqbyDNJInwIdsgrNS2ZGuO547P7hW3uCKHo6ohAjyofGKAA\nOUFmDl5x1dYplONGWYKwuIqLu1LMdyBCIvZW2tEzBZ0EAUQIIzheMSV+cy/PeUYY\njBDYjn29oc5VfBhtyfJOTfLmbm82W6IpK6AaR7YeQYFSwZLraI1bpcNE6wKBgCTN\nCOpj8sIrQoMXtV4AluuuhaUf2rjT1A4jwI5JWAzY4/MxjqOuC73J3nZ4BQdAA6qI\nNNXE4kb1HDClBSUjvi75j4AGBFXJIosU/6O0T1XuV0ihsQ42zV+y0egLLQU8JDpH\n2O6c61SMw+p14T++aEeWa3nebnoMX3PSz1D9h6zvAoGBAJc7J13gUI2inIojV6Es\n+Ixkx7r2BtZY/OL+GiKrIjKjxwsQNqE4jQkRBbIajkWfqnWzrJdkHm2E9AAB78ka\nylsAY28koE9uxiu0q9K/c9rl8bcpuAfy7X8yQ4SUxJ82PoH3FHW5ZY3PLrx5Z683\nh8hptPaNbABZbbBWGA9Xyy5r\n-----END PRIVATE KEY-----\n",
+  "client_email": "hospital-ec6dd@appspot.gserviceaccount.com",
+  "client_id": "114571701973634250774",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hospital-ec6dd%40appspot.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

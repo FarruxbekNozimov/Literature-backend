@@ -16,6 +16,6 @@ export class UpdateUserDto {
   @ApiProperty({ example: 'Uzb@kis!0n' })
   password?: string;
 
-  @ApiProperty({ example: 'HEQJLAM.png' })
-  user_photo?: string;
+  @ApiProperty({ example: 'image.png', type: 'string', format: 'binary' })
+  image?: any;
 }

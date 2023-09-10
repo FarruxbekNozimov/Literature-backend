@@ -7,7 +7,7 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiConsumes } from '@nestjs/swagger';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { BookService } from './book.service';
@@ -17,6 +17,7 @@ import { BookService } from './book.service';
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
+  @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Create a book' })
   @Post()
   create(@Body() createBookDto: CreateBookDto) {

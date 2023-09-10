@@ -9,11 +9,11 @@ import { Storage } from '@google-cloud/storage';
 import { extname } from 'path';
 
 const storage = new Storage({
-  projectId: 'upload-image-392818',
+  projectId: 'hospital-ec6dd',
   keyFilename: 'keyfile.json',
 });
 
-const bucketName = 'upload-image-nest-modme';
+const bucketName = 'hospital-ec6dd.appspot.com';
 const bucket = storage.bucket(bucketName);
 
 @Injectable()

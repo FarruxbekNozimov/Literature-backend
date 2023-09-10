@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 
-async function bootstrap() {
+async function start() {
   try {
     const app = await NestFactory.create(AppModule);
     const PORT = process.env.PORT || 3001;
@@ -18,7 +18,8 @@ async function bootstrap() {
       .setTitle('NestJS')
       .setDescription('REST API')
       .setVersion('1.0.0')
-      .addTag('NodeJS, NestJS, Postgres, sequalize')
+      .addTag('NodeJS, NestJS, Postgres, Sequalize')
+      .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('/api/docs', app, document);
@@ -42,4 +43,4 @@ async function bootstrap() {
     throw new BadRequestException(error.message);
   }
 }
-bootstrap();
+start();

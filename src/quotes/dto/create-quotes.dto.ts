@@ -1,5 +1,4 @@
 export class CreateQuotesDto {
   quotes: string;
-	book_id: number;
-	
+  book_id: number;
 }

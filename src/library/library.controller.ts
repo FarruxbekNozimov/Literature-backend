@@ -6,12 +6,16 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateLibraryDto } from './dto/create-library.dto';
 import { UpdateLibraryDto } from './dto/update-library.dto';
 import { LibraryService } from './library.service';
+import { AuthGuard } from '../guards/jwt-auth.guards';
 
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @ApiTags('Library')
 @Controller('library')
 export class LibraryController {

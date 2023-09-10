@@ -6,12 +6,16 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateCountryDto } from './dto/create-country.dto';
 import { UpdateCountryDto } from './dto/update-country.dto';
 import { CountryService } from './country.service';
+import { AuthGuard } from '../guards/jwt-auth.guards';
 
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @ApiTags('Country')
 @Controller('country')
 export class CountryController {

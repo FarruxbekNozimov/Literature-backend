@@ -6,12 +6,16 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateQuotesDto } from './dto/create-quotes.dto';
 import { UpdateQuotesDto } from './dto/update-quotes.dto';
 import { QuotesService } from './quotes.service';
+import { AuthGuard } from '../guards/jwt-auth.guards';
 
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @ApiTags('Quotes')
 @Controller('quotes')
 export class QuotesController {

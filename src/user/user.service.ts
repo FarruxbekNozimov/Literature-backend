@@ -28,12 +28,9 @@ export class UserService {
     const is_user = await this.findByEmail(email);
     const is_phone = await this.findByPhone(phone);
     if (is_user)
-      throw new HttpException(`User not found`, HttpStatus.BAD_REQUEST);
+      throw new HttpException(`User is already exist`, HttpStatus.BAD_REQUEST);
     if (is_phone)
-      throw new HttpException(
-        `This phone already exists`,
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException(`User is already exist`, HttpStatus.BAD_REQUEST);
 
     let fileName = null;
     if (image) fileName = await this.imageService.create(image);

@@ -6,12 +6,21 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiConsumes } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiConsumes,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { BookService } from './book.service';
+import { AuthGuard } from '../guards/jwt-auth.guards';
 
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @ApiTags('Book')
 @Controller('book')
 export class BookController {
@@ -38,10 +47,7 @@ export class BookController {
 
   @ApiOperation({ summary: 'Update book' })
   @Put(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() updateBookDto: UpdateBookDto,
-  ) {
+  async update(@Param('id') id: number, @Body() updateBookDto: UpdateBookDto) {
     return await this.bookService.update(+id, updateBookDto);
   }
 

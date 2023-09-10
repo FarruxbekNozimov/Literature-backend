@@ -8,14 +8,23 @@ import {
   Put,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiConsumes } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiConsumes,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorService } from './author.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe } from '../pipes/image-validation.pipe';
+import { AuthGuard } from '../guards/jwt-auth.guards';
 
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @ApiTags('Author')
 @Controller('author')
 export class AuthorController {

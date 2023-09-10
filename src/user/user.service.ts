@@ -6,6 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ImageService } from '../image/image.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login-user.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -23,7 +24,7 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto, image: Express.Multer.File) {
-    const { email, phone } = createUserDto;
+    const { email, phone, password } = createUserDto;
     const is_user = await this.findByEmail(email);
     const is_phone = await this.findByPhone(phone);
     if (is_user)
@@ -36,25 +37,28 @@ export class UserService {
 
     let fileName = null;
     if (image) fileName = await this.imageService.create(image);
+    else throw new HttpException(`Photo is required`, HttpStatus.BAD_REQUEST);
+
+    const hashedPassword = await bcrypt.hash(password, 7);
+
     const user = await this.userRepo.create({
       ...createUserDto,
       image: fileName,
+      password: hashedPassword,
     });
 
     const token = await this.getToken(user.id, 'USER');
-    return { message: 'LOGGED', user, token };
+    return { user, token };
   }
 
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
-    console.log(loginDto);
     const user = await this.findByEmail(email);
     if (!user || user.password != password)
       throw new HttpException(`User not found`, HttpStatus.BAD_REQUEST);
     const token = await this.getToken(user.id, 'USER');
 
-    const response = { message: 'LOGGED', user, token };
-    return response;
+    return { user, token };
   }
 
   async findAll() {
@@ -76,9 +80,12 @@ export class UserService {
     return await this.userRepo.findOne({ where: { phone } });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(
+    id: number,
+    updateUserDto: UpdateUserDto,
+    image: Express.Multer.File,
+  ) {
     const user = await this.findOne(id);
-    const { image } = updateUserDto;
 
     if (image) {
       if (user.image) {

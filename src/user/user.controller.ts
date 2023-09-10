@@ -66,8 +66,12 @@ export class UserController {
   @ApiOperation({ summary: 'Update user' })
   @Put(':id')
   @UseInterceptors(FileInterceptor('image'))
-  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-    return await this.userService.update(id, updateUserDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile(new ImageValidationPipe()) image: Express.Multer.File,
+  ) {
+    return await this.userService.update(id, updateUserDto, image);
   }
 
   @ApiBearerAuth()

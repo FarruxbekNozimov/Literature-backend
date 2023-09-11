@@ -15,6 +15,7 @@ export class UserService {
     private readonly imageService: ImageService,
     private readonly jwtService: JwtService,
   ) {}
+
   async getToken(id: number, role: string) {
     const payload = { id, role };
     return this.jwtService.signAsync(payload, {
@@ -51,36 +52,45 @@ export class UserService {
 
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
-    const user = await this.findByEmail(email);
-    if (!user)
+    const is_user = await this.findByEmail(email);
+    if (!is_user)
       throw new HttpException(`User not found`, HttpStatus.BAD_REQUEST);
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, is_user.password);
     if (!isPasswordValid) {
       throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
     }
-    const token = await this.getToken(user.id, 'USER');
-
+    const token = await this.getToken(is_user.id, 'USER');
+    const user: { first_name; last_name; phone; email; image } = is_user;
     return { user, token };
   }
 
   async findAll() {
     return await this.userRepo.findAll({
+      attributes: { exclude: ['password'] },
       include: { all: true, nested: true },
     });
   }
 
   async findOne(id: number) {
-    return await this.userRepo.findByPk(id);
+    return await this.userRepo.findByPk(id, {
+      attributes: { exclude: ['password'] },
+    });
   }
 
   async findByEmail(email: string) {
-    const res = await this.userRepo.findOne({ where: { email } });
+    const res = await this.userRepo.findOne({
+      where: { email },
+      attributes: { exclude: ['password'] },
+    });
     return res;
   }
 
   async findByPhone(phone: string) {
-    return await this.userRepo.findOne({ where: { phone } });
+    return await this.userRepo.findOne({
+      where: { phone },
+      attributes: { exclude: ['password'] },
+    });
   }
 
   async update(

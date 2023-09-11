@@ -63,8 +63,9 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Update user' })
-  @Put(':id')
+  @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image'))
+  @Put(':id')
   async update(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,

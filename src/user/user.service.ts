@@ -98,6 +98,17 @@ export class UserService {
     image: Express.Multer.File,
   ) {
     const user = await this.findOne(id);
+    const { password, confirm_password } = updateUserDto;
+
+    const isPasswordValid = await bcrypt.compare(
+      confirm_password,
+      user.password,
+    );
+    if (!isPasswordValid) {
+      throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 7);
 
     if (image) {
       if (user.image) {
@@ -108,7 +119,10 @@ export class UserService {
       await this.userRepo.update({ image: fileName }, { where: { id } });
     }
 
-    await this.userRepo.update(updateUserDto, { where: { id } });
+    await this.userRepo.update(
+      { ...updateUserDto, password: hashedPassword },
+      { where: { id } },
+    );
     return this.findOne(id);
   }
 

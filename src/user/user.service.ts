@@ -24,7 +24,7 @@ export class UserService {
     });
   }
 
-  async create(createUserDto: CreateUserDto, image: Express.Multer.File) {
+  async create(createUserDto: CreateUserDto) {
     const { email, phone, password } = createUserDto;
     const is_user = await this.findByEmail(email);
     const is_phone = await this.findByPhone(phone);
@@ -33,15 +33,10 @@ export class UserService {
     if (is_phone)
       throw new HttpException(`User is already exist`, HttpStatus.BAD_REQUEST);
 
-    let fileName = null;
-    if (image) fileName = await this.imageService.create(image);
-    else throw new HttpException(`Photo is required`, HttpStatus.BAD_REQUEST);
-
     const hashedPassword = await bcrypt.hash(password, 7);
 
     const user = await this.userRepo.create({
       ...createUserDto,
-      image: fileName,
       password: hashedPassword,
     });
 
@@ -78,18 +73,12 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    const res = await this.userRepo.findOne({
-      where: { email },
-      attributes: { exclude: ['password'] },
-    });
+    const res = await this.userRepo.findOne({ where: { email } });
     return res;
   }
 
   async findByPhone(phone: string) {
-    return await this.userRepo.findOne({
-      where: { phone },
-      attributes: { exclude: ['password'] },
-    });
+    return await this.userRepo.findOne({ where: { phone } });
   }
 
   async update(

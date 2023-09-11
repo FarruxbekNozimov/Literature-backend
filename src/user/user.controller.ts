@@ -30,14 +30,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOperation({ summary: 'Create a user' })
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('image'))
   @Post('register')
-  create(
-    @Body() createUserDto: CreateUserDto,
-    @UploadedFile(new ImageValidationPipe()) image: Express.Multer.File,
-  ) {
-    return this.userService.create(createUserDto, image);
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 
   @ApiOperation({ summary: 'Login User' })

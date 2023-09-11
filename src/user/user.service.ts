@@ -47,7 +47,7 @@ export class UserService {
 
     const token = await this.getToken(user.id, 'USER');
 
-    return { user, token };
+    return { user: await this.findOne(user.id), token };
   }
 
   async login(loginDto: LoginDto) {
@@ -61,8 +61,7 @@ export class UserService {
       throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
     }
     const token = await this.getToken(is_user.id, 'USER');
-    const user: { first_name; last_name; phone; email; image } = is_user;
-    return { user, token };
+    return { user: await this.findOne(is_user.id), token };
   }
 
   async findAll() {

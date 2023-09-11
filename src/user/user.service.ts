@@ -45,14 +45,20 @@ export class UserService {
     });
 
     const token = await this.getToken(user.id, 'USER');
+
     return { user, token };
   }
 
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
     const user = await this.findByEmail(email);
-    if (!user || user.password != password)
+    if (!user)
       throw new HttpException(`User not found`, HttpStatus.BAD_REQUEST);
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
+    }
     const token = await this.getToken(user.id, 'USER');
 
     return { user, token };

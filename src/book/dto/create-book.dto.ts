@@ -37,6 +37,6 @@ export class CreateBookDto {
   @IsNotEmpty()
   description: string;
 
-  @ApiProperty({ example: 'image.png', type: 'string', format: 'binary' })
+  @ApiProperty({ example: 'image.png' })
   book_cover: any;
 }

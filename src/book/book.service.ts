@@ -6,7 +6,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
 
 @Injectable()
 export class BookService {
-  constructor(@InjectModel(Book) private bookRepo: typeof Book) { }
+  constructor(@InjectModel(Book) private bookRepo: typeof Book) {}
 
   async create(createBookDto: CreateBookDto) {
     const res = await this.bookRepo.create(createBookDto);
@@ -14,7 +14,9 @@ export class BookService {
   }
 
   async findAll() {
-    return await this.bookRepo.findAll({ include: { all: true, nested: true } });
+    return await this.bookRepo.findAll({
+      include: { all: true, nested: true },
+    });
   }
 
   async findOne(id: number) {

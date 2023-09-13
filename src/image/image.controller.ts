@@ -19,26 +19,21 @@ import { ImageValidationPipe } from '../pipes/image-validation.pipe';
 export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
-  // @ApiOperation({ summary: 'Create new Image' })
-  // @ApiConsumes('multipart/form-data')
-  // @ApiBody({
-  //   schema: {
-  //     type: 'object',
-  //     properties: {
-  //       image: {
-  //         type: 'string',
-  //         format: 'binary',
-  //       },
-  //     },
-  //   },
-  // })
-  // @Post()
-  // @UseInterceptors(FileInterceptor('image'))
-  // async create(
-  //   @UploadedFile(new ImageValidationPipe()) image: Express.Multer.File,
-  // ) {
-  //   return this.imageService.create(image);
-  // }
+  @ApiOperation({ summary: 'Create new Image' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: { image: { type: 'string', format: 'binary' } },
+    },
+  })
+  @Post()
+  @UseInterceptors(FileInterceptor('image'))
+  async create(
+    @UploadedFile(new ImageValidationPipe()) image: Express.Multer.File,
+  ) {
+    return this.imageService.create(image);
+  }
 
   @ApiOperation({ summary: 'Get All Image' })
   @Get()
@@ -52,9 +47,9 @@ export class ImageController {
     return this.imageService.findOne(fileName, res);
   }
 
-  // @ApiOperation({ summary: 'Delete Image by file name' })
-  // @Delete(':fileName')
-  // async remove(@Param('fileName') fileName: string) {
-  //   return this.imageService.remove(fileName);
-  // }
+  @ApiOperation({ summary: 'Delete Image by file name' })
+  @Delete(':fileName')
+  async remove(@Param('fileName') fileName: string) {
+    return this.imageService.remove(fileName);
+  }
 }
